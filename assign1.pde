@@ -14,7 +14,7 @@ float laserXSpeed = 2;
 
 
 void setup() {
-	size(640, 480);
+	size(640, 480, P2D);
 	
   // Enter Your Setup Code Here
   bg = loadImage("img/bg.jpg");
