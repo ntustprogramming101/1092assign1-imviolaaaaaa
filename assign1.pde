@@ -6,17 +6,34 @@ PImage robotImg;
 PImage soldierImg;
 
 float soldierX = 160;
-float soldierY = 240;
-float soldierXSpeed = 5;
+float soldierY;
+float soldierXSpeed = 3;
 
-float laserX = 345;
-float laserXSpeed = 2;
+float robotX; 
+float robotY; 
 
+float laserX; 
+float laserY; 
+float laserXSpeed = 2;  
+float laserWidth = 40;
+
+final int singleSpace = 80;
+
+final int lifeWidth = 50;
+final int lifeSpace = 20;
+
+final int soliderWidth = 80;
+final int soldierHeight = 80;
+
+final int robotSpaceX = 160;
+
+final float laserHeight = 10;
+final float laserSpaceX = 25;
+final float laserSpaceY = 37;
 
 void setup() {
-	size(640, 480, P2D);
+	size(640, 480);
 	
-  // Enter Your Setup Code Here
   bg = loadImage("img/bg.jpg");
   soilImg = loadImage("img/soil.png");
   lifeImg = loadImage("img/life.png");
@@ -26,45 +43,57 @@ void setup() {
   
   //soldier random floor appearance
   soldierY = 160 + 80 * (floor(random(4)));
+  
+  //robot ramdom appearance
+  robotX = 160 + 80 * (floor(random(6))); 
+  robotY = 160 + 80 * (floor(random(4)));
+  
+  //laser
+  laserX = robotX - laserSpaceX + 40;
+  laserY = robotY + laserSpaceY - (laserHeight/2);
 }
 
 void draw() {
   
   // background elements
   image(bg, 0, 0);
-  image(soilImg, 0, 160);
+  image(soilImg, 0, singleSpace * 2);
   image(lifeImg, 10, 10);
-  image(lifeImg, 80, 10);
-  image(lifeImg, 150, 10);
+  image(lifeImg, 10 + (lifeWidth + lifeSpace), 10);
+  image(lifeImg, 10 + (lifeWidth + lifeSpace)*2, 10);
   
   //grass
   noStroke();
   fill(124, 204, 25);
-  rect(0, 145, 640, 15);
+  rect(0, singleSpace * 2 - 15, 640, 15);
   
   //groundhog
-  image(grounghogImg, 280, 80);
+  image(grounghogImg, width/2 - singleSpace / 2 , singleSpace);
+  println(width/2 - singleSpace / 2);
   
   //soldier
   image(soldierImg, soldierX, soldierY);
   //soldier movement
   soldierX += soldierXSpeed;
-  soldierX %= (640 + 80);
+  soldierX %= (width + soliderWidth);
   
   //sun
-  fill(255, 255, 0);
-  ellipse(590, 50, 130, 130);
-  
+  strokeWeight(5);
+  stroke(255, 255, 0);
   fill(253, 184, 19);
-  ellipse(590, 50, 120, 120);
+  ellipse(590, 50, 120,120);
   
   //laser
+  noStroke();
   fill(255,0,0);
-  rect(laserX, 197, 40, 10, 10);
+  rect(laserX, laserY, laserWidth, 10, 10);
+  
   //laser movement
   laserX -= laserXSpeed;
-  if( laserX < 160 ){laserX = laserX % 160 +185;}
-  
+  if( laserX < robotX - robotSpaceX ){
+      laserX = robotX - laserSpaceX + 40;
+    }
+ 
   //robot
-  image(robotImg, 320, 160);
+  image(robotImg, robotX, robotY);
 }
