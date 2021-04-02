@@ -69,7 +69,6 @@ void draw() {
   
   //groundhog
   image(grounghogImg, width/2 - singleSpace / 2 , singleSpace);
-  println(width/2 - singleSpace / 2);
   
   //soldier
   image(soldierImg, soldierX, soldierY);
