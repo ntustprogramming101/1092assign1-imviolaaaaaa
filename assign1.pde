@@ -7,7 +7,7 @@ PImage soldierImg;
 
 float soldierX = 160;
 float soldierY;
-float soldierXSpeed = 3;
+float soldierXSpeed = 2;
 
 float robotX; 
 float robotY; 
@@ -17,19 +17,21 @@ float laserY;
 float laserXSpeed = 2;  
 float laserWidth = 40;
 
-final int singleSpace = 80;
+final int SINGLE_SPACE = 80;
 
-final int lifeWidth = 50;
-final int lifeSpace = 20;
+final int LIFE_WIDTH = 50;
+final int LIFE_SPACE = 20;
 
-final int soliderWidth = 80;
-final int soldierHeight = 80;
+final int SOLDIER_WIDTH = 80;
+final int SOLDIER_HEIGHT = 80;
+final int SOLDIER_STARTY = 160;
 
-final int robotSpaceX = 160;
+final int ROBOT_STARTX = 160;
+final int ROBOT_STARTY = 160;
 
-final float laserHeight = 10;
-final float laserSpaceX = 25;
-final float laserSpaceY = 37;
+final float LASER_HEIGHT = 10;
+final float LASER_OFFSETX = 25;
+final float LASER_OFFSETY = 37;
 
 void setup() {
 	size(640, 480);
@@ -42,39 +44,41 @@ void setup() {
   soldierImg = loadImage("img/soldier.png");
   
   //soldier random floor appearance
-  soldierY = 160 + 80 * (floor(random(4)));
+  soldierY = SOLDIER_STARTY + SINGLE_SPACE * (floor(random(4)));
   
   //robot ramdom appearance
-  robotX = 160 + 80 * (floor(random(6))); 
-  robotY = 160 + 80 * (floor(random(4)));
+  robotX = ROBOT_STARTX + SINGLE_SPACE * (floor(random(6))); 
+  robotY = ROBOT_STARTX + SINGLE_SPACE * (floor(random(4)));
   
   //laser
-  laserX = robotX - laserSpaceX + 40;
-  laserY = robotY + laserSpaceY - (laserHeight/2);
+  laserX = robotX - LASER_OFFSETX + laserWidth;
+  laserY = robotY + LASER_OFFSETY - (LASER_HEIGHT/2);
 }
 
 void draw() {
   
   // background elements
   image(bg, 0, 0);
-  image(soilImg, 0, singleSpace * 2);
+  image(soilImg, 0, SINGLE_SPACE * 2);
+  
+  //life
   image(lifeImg, 10, 10);
-  image(lifeImg, 10 + (lifeWidth + lifeSpace), 10);
-  image(lifeImg, 10 + (lifeWidth + lifeSpace)*2, 10);
+  image(lifeImg, 10 + (LIFE_WIDTH + LIFE_SPACE), 10);
+  image(lifeImg, 10 + (LIFE_WIDTH + LIFE_SPACE)*2, 10);
   
   //grass
   noStroke();
   fill(124, 204, 25);
-  rect(0, singleSpace * 2 - 15, 640, 15);
+  rect(0, SINGLE_SPACE * 2 - 15, width, 15);
   
   //groundhog
-  image(grounghogImg, width/2 - singleSpace / 2 , singleSpace);
+  image(grounghogImg, width/2 - SINGLE_SPACE / 2 , SINGLE_SPACE);
   
   //soldier
   image(soldierImg, soldierX, soldierY);
   //soldier movement
   soldierX += soldierXSpeed;
-  soldierX %= (width + soliderWidth);
+  soldierX %= (width + SOLDIER_WIDTH);
   
   //sun
   strokeWeight(5);
@@ -85,12 +89,12 @@ void draw() {
   //laser
   noStroke();
   fill(255,0,0);
-  rect(laserX, laserY, laserWidth, 10, 10);
+  rect(laserX, laserY, laserWidth, LASER_HEIGHT, 10);
   
   //laser movement
   laserX -= laserXSpeed;
-  if( laserX < robotX - robotSpaceX ){
-      laserX = robotX - laserSpaceX + 40;
+  if( laserX < robotX - ROBOT_STARTX ){
+      laserX = robotX - LASER_OFFSETX + laserWidth;
     }
  
   //robot
